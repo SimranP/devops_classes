@@ -1,5 +1,7 @@
 ---
-- hosts: webserver1,webserver2 
+- hosts: webserver1 
+  vars_files: 
+    - config.yml
   tasks:
     - name: Add yum repository for nodejs
       become: yes
@@ -10,15 +12,13 @@
         gpgcheck: no
         enabled: yes
 
- 
-- hosts: webserver1 
-  tasks:
     - name: "Install nginx and nodejs"
       become: yes
-      yum: name={{item}}
+      yum:
+        name: "{{item}}"
       with_items:
         - nginx
-        - nodejs-7.2.0
+        - "nodejs-{{node_version_webserver1}}"
 
     - name: "Modified Nginx configuration"
       become: yes
@@ -34,9 +34,21 @@
         enabled: yes
 
 - hosts: webserver2
+  vars_files: 
+    - config.yml
   tasks:
+    - name: Add yum repository for nodejs
+      become: yes
+      yum_repository:
+        name: nodejs
+        description: nodejs
+        baseurl: https://rpm.nodesource.com/pub_7.x/el/6/x86_64/
+        gpgcheck: no
+        enabled: yes
+
     - name: "Install nodejs"
       become: yes
-      yum: name={{item}}
+      yum: 
+        name: "{{item}}"
       with_items:
-        - nodejs-7.3.0
+        - "nodejs-{{node_version_webserver2}}"
