@@ -1,32 +1,24 @@
 ---
-- hosts: webserver1 
-  vars_files: 
+- hosts: webserver1
+  vars_files:
     - config.yml
   tasks:
-    - name: Add yum repository for nodejs
-      become: yes
-      yum_repository:
+    - name: Include nodejs role
+      include_role:
         name: nodejs
-        description: nodejs
-        baseurl: https://rpm.nodesource.com/pub_7.x/el/6/x86_64/
-        gpgcheck: no
-        enabled: yes
 
-    - name: "Install nginx and nodejs"
+    - name: "Install nginx"
       become: yes
       yum:
-        name: "{{item}}"
-      with_items:
-        - nginx
-        - "nodejs-{{node_version_webserver1}}"
+        name: nginx
 
     - name: "Modified Nginx configuration"
       become: yes
-      copy: 
+      copy:
         src: /Users/simranpal/workspace/devops_classes/app1/default.conf
         dest: /etc/nginx/conf.d/default.conf
 
-    - name: "Start Nginx"  
+    - name: "Start Nginx"
       become: yes
       service:
         name: nginx
@@ -34,21 +26,9 @@
         enabled: yes
 
 - hosts: webserver2
-  vars_files: 
+  vars_files:
     - config.yml
   tasks:
-    - name: Add yum repository for nodejs
-      become: yes
-      yum_repository:
+    - name: Include nodejs role
+      include_role:
         name: nodejs
-        description: nodejs
-        baseurl: https://rpm.nodesource.com/pub_7.x/el/6/x86_64/
-        gpgcheck: no
-        enabled: yes
-
-    - name: "Install nodejs"
-      become: yes
-      yum: 
-        name: "{{item}}"
-      with_items:
-        - "nodejs-{{node_version_webserver2}}"
