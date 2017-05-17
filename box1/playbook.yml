@@ -1,11 +1,13 @@
 ---
 - hosts: webserver1
+  vars_files:
+    - config.yml
   tasks:
     - name: Include nodejs role
       include_role:
         name: nodejs
       vars:
-        nodejs_version: 7.5.0
+        nodejs_version: "{{node_version_webserver1}}"
 
     - name: "Install nginx"
       become: yes
@@ -33,4 +35,4 @@
       include_role:
         name: nodejs
       vars:
-        nodejs_version: 7.1.0
+        nodejs_version: "{{node_version_webserver2}}"
