@@ -10,4 +10,4 @@
 - name: "Install nodejs"
   become: yes
   yum:
-    name: "nodejs-7.2.0"
+    name: "nodejs-{{nodejs_version}}"
