@@ -3,10 +3,10 @@
   yum:
     name: nginx
 
-- name: "Modified Nginx configuration"
+- name: "Modified Nginx configuration (Port change to 8080)"
   become: yes
   copy:
-    src: /Users/simranpal/workspace/devops_classes/app1/default.conf
+    src: default.conf
     dest: /etc/nginx/conf.d/default.conf
 
 - name: "Start Nginx"
