@@ -1,12 +1,12 @@
 ---
-- hosts: webserver1
+- hosts: webservers1
   vars_files:
     - prod_config.yml
   roles:
     - nodejs
     - nginx
 
-- hosts: webserver2
+- hosts: webservers2
   vars_files:
     - dev_config.yml
   roles:
