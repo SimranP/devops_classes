@@ -5,8 +5,8 @@
 
 - name: "Modified Nginx configuration (Port change to 8080)"
   become: yes
-  copy:
-    src: default.conf
+  template:
+    src: nginx_default.conf
     dest: /etc/nginx/conf.d/default.conf
 
 - name: "Start Nginx"
