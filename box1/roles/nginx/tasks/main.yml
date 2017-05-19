@@ -4,12 +4,15 @@
     name: nginx
   notify: Restart nginx
 
-- name: "Modified Nginx configuration (Port change to 8080)"
+- name: "Modified Nginx configuration (Port change to {{nginx_port}})"
   become: yes
   template:
     src: nginx_default.conf
     dest: /etc/nginx/conf.d/default.conf
   register: nginx_config_update_result
+
+- set_fact:
+    nginx_conf_changed: "{{ nginx_config_update_result.changed }}"
 
 - name: "Start Nginx"
   become: yes
@@ -23,4 +26,4 @@
   service:
     name: nginx
     state: restarted
-  when: nginx_config_update_result.changed
+  when: nginx_conf_changed
