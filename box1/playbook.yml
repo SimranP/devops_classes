@@ -3,11 +3,10 @@
   vars_files:
     - configs/prod_config.yml
   roles:
-    - nginx
-    - nodejs
+    - webservers1
 
 - hosts: webservers2
   vars_files:
     - configs/dev_config.yml
   roles:
-    - nodejs
+    - webservers2
