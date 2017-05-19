@@ -2,9 +2,12 @@
 - hosts: webservers1
   vars_files:
     - configs/prod_config.yml
+  tasks:
+    - debug:
+        msg: "{{nginx_config_update_result}}"
   roles:
-    - nodejs
     - nginx
+    - nodejs
 
 - hosts: webservers2
   vars_files:
